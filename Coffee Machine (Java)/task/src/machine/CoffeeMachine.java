@@ -4,41 +4,76 @@ import java.util.Scanner;
 import java.lang.*;
 
 public class CoffeeMachine {
+    
+    static int water = 400, milk = 540, coffee = 120, cups = 9, money = 550;
     public static void main(String[] args) {
 
-//        System.out.println("Starting to make a coffee\n" +
-//                "Grinding coffee beans\n" +
-//                "Boiling water\n" +
-//                "Mixing boiled water with crushed coffee beans\n" +
-//                "Pouring coffee into the cup\n" +
-//                "Pouring some milk into the cup\n" +
-//                "Coffee is ready!");
-
-//        System.out.println("Write how many cups of coffee you will need: ");
-//        Scanner scanner = new Scanner(System.in);
-//        int noOfCups = scanner.nextInt();
-//        System.out.printf("For %d cups of coffee you will need:\n",noOfCups);
-//        System.out.printf("%d ml of water\n", noOfCups*200);
-//        System.out.printf("%d ml of milk\n", noOfCups*50);
-//        System.out.printf("%d g of coffee beans\n", noOfCups*15);
-
+        currentCoffeeMachineStats();
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Write action (buy, fill, take): ");
+        String action = input(scanner);
+        
+        performAction(action);
+        
+        currentCoffeeMachineStats();
+    }
 
-        System.out.println("Write how many ml of water the coffee machine has:");
-        int water = input(scanner);
+    private static void performAction(String action) {
+        if (action.equals("buy")) {
+            buy();
+        } else if (action.equals("fill")) {
+            fill();
+        } else if (action.equals("take")) {
+            take();
+        }
+    }
 
-        System.out.println("Write how many ml of milk the coffee machine has:");
-        int milk = input(scanner);
+    private static void take() {
+        System.out.printf("I gave you $%d", money);
+        money = 0;
+    }
 
-        System.out.println("Write how many grams of coffee beans the coffee machine has:");
-        int coffee = input(scanner);
+    private static void fill() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Write how many ml of water you want to add: ");
+        water += scanner.nextInt();
+        System.out.println("Write how many ml of milk you want to add: ");
+        milk += scanner.nextInt();
+        System.out.println("Write how many grams of coffee beans you want to add:");
+        coffee += scanner.nextInt();
+        System.out.println("Write how many disposable cups you want to add:");
+        cups += scanner.nextInt();
+    }
 
-        System.out.println("Write how many cups of coffee you will need:");
-        int cups = input(scanner);
+    private static void buy() {
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
+        Scanner scanner = new Scanner(System.in);
+        int coffeeOption = scanner.nextInt();
+        if (coffeeOption == 1) {
+            water -= 250;
+            coffee -= 16;
+            money +=4;
+        } else if (coffeeOption == 2) {
+            water -= 350;
+            milk -= 75;
+            coffee -= 20;
+            money += 7;
+        } else {
+            water -= 200;
+            milk -= 100;
+            coffee -= 12;
+            money += 6;
+        }
+        cups--;
+    }
 
-        printCoffeeCups(water,milk,coffee,cups);
-
-
+    private static void currentCoffeeMachineStats() {
+        System.out.println("The coffee machine has:");
+        System.out.printf("%d ml of water\n" +
+                "%d ml of milk\n" +
+                "%d g of coffee beans\n" +
+                "%d disposable cups\n" +
+                "$%d of money\n", water, milk, coffee, cups, money);
     }
 
     private static void printCoffeeCups(int water, int milk, int coffee, int cups) {
@@ -52,7 +87,7 @@ public class CoffeeMachine {
         }
     }
 
-    public static int input(Scanner scanner) {k
-        return scanner.nextInt();
+    public static String input(Scanner scanner) {
+        return scanner.nextLine();
     }
 }
