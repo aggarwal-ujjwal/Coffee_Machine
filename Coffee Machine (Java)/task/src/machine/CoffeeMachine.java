@@ -1,6 +1,7 @@
 package machine;
 
 import java.util.Scanner;
+import java.lang.*;
 
 public class CoffeeMachine {
     public static void main(String[] args) {
@@ -41,7 +42,14 @@ public class CoffeeMachine {
     }
 
     private static void printCoffeeCups(int water, int milk, int coffee, int cups) {
-
+        int possibleCups = Math.min(water/200, Math.min(milk/50, coffee/15));
+        if(possibleCups==cups){
+            System.out.println("Yes, I can make that amount of coffee");
+        } else if (possibleCups > cups) {
+            System.out.printf("Yes, I can make that amount of coffee (and even %d more than that)",possibleCups-cups);
+        } else {
+            System.out.printf("No, I can make only %d cup(s) of coffee" , possibleCups);
+        }
     }
 
     public static int input(Scanner scanner) {
