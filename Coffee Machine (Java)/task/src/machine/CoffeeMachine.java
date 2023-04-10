@@ -52,7 +52,7 @@ public class CoffeeMachine {
         }
     }
 
-    public static int input(Scanner scanner) {
+    public static int input(Scanner scanner) {k
         return scanner.nextInt();
     }
 }
