@@ -4,18 +4,21 @@ import java.util.Scanner;
 import java.lang.*;
 
 public class CoffeeMachine {
-    
+
+    static Scanner scanner = new Scanner(System.in);
     static int water = 400, milk = 540, coffee = 120, cups = 9, money = 550;
     public static void main(String[] args) {
+        String action = "";
+        while (!action.equals("exit")) {
+                System.out.println("Write action (buy, fill, take, remaining, exit): ");
+            action = scanner.next();
+            if (action.equals("exit")) {
+                break;
+            } else {
+                performAction(action);
+            }
+        }
 
-        currentCoffeeMachineStats();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Write action (buy, fill, take): ");
-        String action = input(scanner);
-        
-        performAction(action);
-        
-        currentCoffeeMachineStats();
     }
 
     private static void performAction(String action) {
@@ -25,16 +28,18 @@ public class CoffeeMachine {
             fill();
         } else if (action.equals("take")) {
             take();
+        } else if (action.equals("remaining")) {
+            currentCoffeeMachineStats();
         }
     }
 
     private static void take() {
-        System.out.printf("I gave you $%d", money);
+        System.out.printf("I gave you $%d\n", money);
         money = 0;
     }
 
     private static void fill() {
-        Scanner scanner = new Scanner(System.in);
+
         System.out.println("Write how many ml of water you want to add: ");
         water += scanner.nextInt();
         System.out.println("Write how many ml of milk you want to add: ");
@@ -47,24 +52,54 @@ public class CoffeeMachine {
 
     private static void buy() {
         System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
-        Scanner scanner = new Scanner(System.in);
-        int coffeeOption = scanner.nextInt();
+        String input = scanner.next();
+        if(input.equals("back"))
+            return;
+        int coffeeOption = Integer.parseInt(input);
         if (coffeeOption == 1) {
-            water -= 250;
-            coffee -= 16;
-            money +=4;
+            if (water < 250 ){
+                System.out.println("Sorry, not enough water!");
+            } else if (coffee < 16) {
+                System.out.println("Sorry, not enough coffee beans!");
+            } else {
+                System.out.println("I have enough resources, making you a coffee!");
+                water -= 250;
+                coffee -= 16;
+                money += 4;
+                cups--;
+            }
         } else if (coffeeOption == 2) {
-            water -= 350;
-            milk -= 75;
-            coffee -= 20;
-            money += 7;
+            if (water < 350 ){
+                System.out.println("Sorry, not enough water!");
+            } else if (coffee < 20) {
+                System.out.println("Sorry, not enough coffee beans!");
+            } else if (milk < 75) {
+                System.out.println("Sorry, not enough milk!");
+            } else {
+                System.out.println("I have enough resources, making you a coffee!");
+                water -= 350;
+                milk -= 75;
+                coffee -= 20;
+                money += 7;
+                cups--;
+            }
         } else {
-            water -= 200;
-            milk -= 100;
-            coffee -= 12;
-            money += 6;
+            if (water < 200 ){
+                System.out.println("Sorry, not enough water!");
+            } else if (coffee < 12) {
+                System.out.println("Sorry, not enough coffee beans!");
+            } else if (milk < 100) {
+                System.out.println("Sorry, not enough milk!");
+            } else {
+                System.out.println("I have enough resources, making you a coffee!");
+                water -= 200;
+                milk -= 100;
+                coffee -= 12;
+                money += 6;
+                cups--;
+            }
         }
-        cups--;
+
     }
 
     private static void currentCoffeeMachineStats() {
@@ -88,6 +123,6 @@ public class CoffeeMachine {
     }
 
     public static String input(Scanner scanner) {
-        return scanner.nextLine();
+        return scanner.next();
     }
 }
